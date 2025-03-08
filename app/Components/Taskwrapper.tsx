@@ -16,6 +16,7 @@ const Taskwrapper: React.FC<TaskProps> = ({ status }) => {
     const value = useContext(context)
     const [task, setTask] = useState('')
     const [session, setSession] = useState<Session | null>(null)
+    const [loader, setloader] = useState<boolean>(false)
 
     useEffect(() => {
         const getsession = async () => {
@@ -24,6 +25,14 @@ const Taskwrapper: React.FC<TaskProps> = ({ status }) => {
         }
         getsession();
     }, [])
+
+
+    useEffect(() => {
+        if (session) {
+            setloader(true)
+        }
+    }, [session])
+
 
     const handlechange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setTask(e.target.value)
@@ -38,52 +47,44 @@ const Taskwrapper: React.FC<TaskProps> = ({ status }) => {
 
     return (
         <SkeletonTheme baseColor="#202020" highlightColor="#444">
-            <div className="flex flex-col w-[25%] h-full items-center">
+            <div className="flex flex-col w-[25%] h-full items-center max-sm:w-full">
 
-                {Array.isArray(value?.Tasks) ? (
-                    value?.Tasks.length > 0 ? (
-                        <div className="flex justify-between items-center w-full mb-5">
-                            <div className="text-yellow-200 text-lg font-semibold">{status}</div>
-                            <div className="text-neutral-400">
-                                {value?.Tasks.filter((item) => item.status === status).length}
-                            </div>
+                {Array.isArray(value?.Tasks) && value?.Tasks.length >= 0 && loader ? (
+
+                    <div className="flex justify-between items-center w-full mb-5">
+                        <div className="text-yellow-200 text-lg font-semibold">{status}</div>
+                        <div className="text-neutral-400">
+                            {value?.Tasks.filter((item) => item.status === status).length}
                         </div>
-                    ) : (
-                        <div className="flex justify-between items-center w-full mb-5">
-                            <div className="text-yellow-200 text-lg font-semibold">{status}</div>
-                            <div className="text-neutral-400">
-                                {value?.Tasks.filter((item) => item.status === status).length}
-                            </div>
-                        </div>
-                    )
-                ) : (
-                    // Show skeleton only while value?.Tasks is undefined (loading state)
-                    <div className="mt-2">
+                    </div>
+                ) : loader && Array.isArray(value?.Tasks) && value?.Tasks?.length < 1 ? (
+                    <div className="text-yellow-200 text-lg font-semibold"></div>
+                ) :
+                    <div className="mt-2 max-sm:mr-5">
                         <Skeleton width={300} height={40} />
                     </div>
-                )}
+                }
 
                 <div className='w-full'>
-                    {Array.isArray(value?.Tasks) ? (
-                        value?.Tasks.length > 0 ? (
-                            <motion.div layout>
-                                {value?.Tasks
-                                    .filter((item) => item.status === status)
-                                    .sort((a, b) => a.id - b.id)
-                                    .map((item) => (
-                                        <Task key={item.id} item={item} />
-                                    ))}
-                            </motion.div>
-                        ) : (
-                            // Empty state message when no tasks exist
-                            <div className="mt-2 text-gray-400">No tasks available.</div>
-                        )
-                    ) : (
-                        // Show skeleton only while value?.Tasks is undefined (loading state)
+                    {Array.isArray(value?.Tasks) && value?.Tasks.length > 0 && loader ? (
+
+                        <motion.div layout>
+                            {value?.Tasks
+                                .filter((item) => item.status === status)
+                                .sort((a, b) => a.id - b.id)
+                                .map((item) => (
+                                    <Task key={item.id} item={item} />
+                                ))}
+                        </motion.div>
+                    ) : loader && Array.isArray(value?.Tasks) && value?.Tasks?.length < 1 ? (
+                        <div className="text-yellow-200 text-lg font-semibold"></div>
+                    ) :
                         <div className="mt-2">
                             <Skeleton width={300} height={50} count={3} />
                         </div>
-                    )}
+                    }
+
+
                     {addtask === true &&
                         <>
                             <div className='w-full'>

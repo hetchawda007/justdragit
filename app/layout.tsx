@@ -30,7 +30,7 @@ export default function RootLayout({
         <link rel="shortcut icon" href="/logo.png" type="image/png" />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} bg-neutral-900 antialiased overflow-y-hidden`}
+        className={`${geistSans.variable} ${geistMono.variable} bg-neutral-900 antialiased overflow-y-auto`}
       >
           {children}
       </body>
