@@ -91,7 +91,7 @@ export default function Home() {
             transition={{ duration: 0.7, delay: 0.4 }}
           >
             <Link href="/login" className="px-8 py-3 text-lg bg-blue-500 hover:bg-blue-600 rounded-lg transition-all">
-              Get Started — It's Free
+              Get Started — It&apos;s Free
             </Link>
           </motion.div>
         </div>
@@ -247,7 +247,7 @@ export default function Home() {
               role: "Product Manager"
             },
             {
-              quote: "The best task management tool I've used. Simple enough for quick tasks, powerful enough for complex projects.",
+              quote: "The best task management tool I&apos;ve used. Simple enough for quick tasks, powerful enough for complex projects.",
               author: "Michael Chen",
               role: "Software Developer"
             },
@@ -265,7 +265,7 @@ export default function Home() {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               className="bg-gray-800/50 p-6 rounded-xl border border-gray-700"
             >
-              <div className="text-2xl text-blue-400 mb-4">"</div>
+              <div className="text-2xl text-blue-400 mb-4">&quot;</div>
               <p className="text-gray-300 mb-6">{testimonial.quote}</p>
               <div>
                 <p className="font-medium">{testimonial.author}</p>
